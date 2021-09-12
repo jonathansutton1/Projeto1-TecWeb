@@ -5,7 +5,6 @@ def extract_route(requisicao):
         lista1 = requisicao.split("GET /")
     else:
         lista1 = requisicao.split("POST /")
-
     lista2 = lista1[1].split(" ")
     return lista2[0]
     
