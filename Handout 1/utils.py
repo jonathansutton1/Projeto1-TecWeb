@@ -11,24 +11,25 @@ def extract_route(requisicao):
     
 def read_file(path):
     lista = str(path).split(".")
-    if lista[-1] == 'txt' or lista[-1] == 'html' or lista[-1] == 'css' or lista[-1] == 'js':
-        with open(path,"rt") as file:
-           text = file.read() 
-           return text
+    if lista[-1]=="txt" or lista[-1]=="html" or lista[-1]=="css" or lista[-1]=="js":
+        with open(path, "rt") as file:
+            text = file.read()
+            return text
     else:
-        with open(path,'rb') as file:
+        with open(path, "rb") as file:
             binary = file.read()
-            return binary
+        return binary
 
 def load_data(nomeJson):
-   filepath =  "data/" +nomeJson
-   with open(filepath,"rt",encoding="utf-8") as text:
-       content = text.read()
-       contentPython = json.loads(content)
-       return contentPython
+    filePath = "data/"+nomeJson
+    with open(filePath, "rt", encoding="utf-8") as text:
+        content = text.read()
+        contentPython = json.loads(content)
+        return contentPython
 
-def load_template(filepath):
-    file = open("templates/"+filepath)
+
+def load_template(file_path):
+    file = open("templates/"+file_path)
     content = file.read()
     file.close()
     return content
@@ -45,5 +46,15 @@ def addlist(params):
     with open(filename, "w") as file:
         json.dump(data, file)
 
-def build_response(body,code,reason,headers):
-    return('x')
+def build_response(body='', code=200, reason='OK', headers=''):
+    c = ("{}".format(code))
+    if body != "":
+        stri = 'HTTP/1.1 200 OK\n\n' + body
+    elif code != 200:
+        if headers != '':
+            stri = "HTTP/1.1" + " " + c + " " +reason + "\n"+ headers + "\n\n"
+        else:
+            stri = "HTTP/1.1" + " " + c + " " +reason + "\n\n"
+    else:
+        stri = 'HTTP/1.1 200 OK\n\n'
+    return stri.encode()
